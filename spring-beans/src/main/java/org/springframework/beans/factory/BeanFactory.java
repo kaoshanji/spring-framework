@@ -124,7 +124,7 @@ public interface BeanFactory {
 
 
 	/**
-	 *  ¾ÍÊÇËû£¬ÕâÀïµÄ¹ÊÊÂºÜ¶à
+	 *  è¿™ä¸ªåœ°æ–¹æ•…äº‹å¤š..
 	 * Return an instance, which may be shared or independent, of the specified bean.
 	 * <p>This method allows a Spring BeanFactory to be used as a replacement for the
 	 * Singleton or Prototype design pattern. Callers may retain references to
