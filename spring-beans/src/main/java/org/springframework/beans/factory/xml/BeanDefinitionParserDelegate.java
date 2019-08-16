@@ -1230,7 +1230,7 @@ public class BeanDefinitionParserDelegate {
 		for (int i = 0; i < elementNodes.getLength(); i++) {
 			Node node = elementNodes.item(i);
 			if (node instanceof Element && !nodeNameEquals(node, DESCRIPTION_ELEMENT)) {
-				// 加入到target中，target是个ManagedList，同时触发对下一层子元素的解析过程
+				// 加入到target中，target是一个ManageList，同时触发对下一层子元素的解析过程
 				// 这是一个递归的调用
 				target.add(parsePropertySubElement((Element) node, bd, defaultElementType));
 			}
