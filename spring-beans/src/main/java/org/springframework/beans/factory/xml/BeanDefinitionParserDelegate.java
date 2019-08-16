@@ -758,12 +758,15 @@ public class BeanDefinitionParserDelegate {
 
 	/**
 	 * Parse property sub-elements of the given bean element.
+	 * 对指定Bean元素的property子元素集合进行解析
 	 */
 	public void parsePropertyElements(Element beanEle, BeanDefinition bd) {
+		// 遍历所有Bean元素下定义的property元素
 		NodeList nl = beanEle.getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
 			Node node = nl.item(i);
 			if (isCandidateElement(node) && nodeNameEquals(node, PROPERTY_ELEMENT)) {
+				// 判断是property元素后对该property元素进行解析的过程
 				parsePropertyElement((Element) node, bd);
 			}
 		}
@@ -892,6 +895,7 @@ public class BeanDefinitionParserDelegate {
 	 * Parse a property element.
 	 */
 	public void parsePropertyElement(Element ele, BeanDefinition bd) {
+		// property的名字
 		String propertyName = ele.getAttribute(NAME_ATTRIBUTE);
 		if (!StringUtils.hasLength(propertyName)) {
 			error("Tag 'property' must have a 'name' attribute", ele);
@@ -899,10 +903,14 @@ public class BeanDefinitionParserDelegate {
 		}
 		this.parseState.push(new PropertyEntry(propertyName));
 		try {
+			// 在同一个Bean中有同名的property设置。起作用的只是第一个
 			if (bd.getPropertyValues().contains(propertyName)) {
 				error("Multiple 'property' definitions for property '" + propertyName + "'", ele);
 				return;
 			}
+			// 解析property值
+			// 返回的对象对应对Bean定义的property属性设置的解析结果
+			// 解析结果会封装到PropertyValue对象中，然后设置到BeanDefinitionHolder中去
 			Object val = parsePropertyValue(ele, bd, propertyName);
 			PropertyValue pv = new PropertyValue(propertyName, val);
 			parseMetaElements(ele, pv);
@@ -959,6 +967,8 @@ public class BeanDefinitionParserDelegate {
 	/**
 	 * Get the value of a property element. May be a list etc.
 	 * Also used for constructor arguments, "propertyName" being null in this case.
+	 * 获取 property元素的值
+	 * 也是是一个list或者其他...
 	 */
 	public Object parsePropertyValue(Element ele, BeanDefinition bd, String propertyName) {
 		String elementName = (propertyName != null) ?
@@ -982,6 +992,7 @@ public class BeanDefinitionParserDelegate {
 			}
 		}
 
+		// property 的属性，是 ref 还是 value，不允许同时是 ref和value
 		boolean hasRefAttribute = ele.hasAttribute(REF_ATTRIBUTE);
 		boolean hasValueAttribute = ele.hasAttribute(VALUE_ATTRIBUTE);
 		if ((hasRefAttribute && hasValueAttribute) ||
@@ -990,6 +1001,8 @@ public class BeanDefinitionParserDelegate {
 					" is only allowed to contain either 'ref' attribute OR 'value' attribute OR sub-element", ele);
 		}
 
+		// 如果是 ref
+		// 创建一个 ref 的数据对象 RuntimeBeanReference，这个对象封装了ref的信息
 		if (hasRefAttribute) {
 			String refName = ele.getAttribute(REF_ATTRIBUTE);
 			if (!StringUtils.hasText(refName)) {
@@ -999,11 +1012,14 @@ public class BeanDefinitionParserDelegate {
 			ref.setSource(extractSource(ele));
 			return ref;
 		}
+		// 如果是value，创建一个value的数据对象TypedStringValue
 		else if (hasValueAttribute) {
 			TypedStringValue valueHolder = new TypedStringValue(ele.getAttribute(VALUE_ATTRIBUTE));
 			valueHolder.setSource(extractSource(ele));
 			return valueHolder;
 		}
+		// 还有子元素，触发对子元素的解析
+		// 有很多...比如集合元素
 		else if (subElement != null) {
 			return parsePropertySubElement(subElement, bd);
 		}
@@ -1187,6 +1203,8 @@ public class BeanDefinitionParserDelegate {
 		target.setSource(extractSource(collectionEle));
 		target.setElementTypeName(defaultElementType);
 		target.setMergeEnabled(parseMergeAttribute(collectionEle));
+		
+		// 具体的List元素的解析过程
 		parseCollectionElements(nl, target, bd, defaultElementType);
 		return target;
 	}
@@ -1208,9 +1226,12 @@ public class BeanDefinitionParserDelegate {
 	protected void parseCollectionElements(
 			NodeList elementNodes, Collection<Object> target, BeanDefinition bd, String defaultElementType) {
 
+		// 遍历所有的元素节点，并判断其类型是否为Element
 		for (int i = 0; i < elementNodes.getLength(); i++) {
 			Node node = elementNodes.item(i);
 			if (node instanceof Element && !nodeNameEquals(node, DESCRIPTION_ELEMENT)) {
+				// 加入到target中，target是个ManagedList，同时触发对下一层子元素的解析过程
+				// 这是一个递归的调用
 				target.add(parsePropertySubElement((Element) node, bd, defaultElementType));
 			}
 		}
