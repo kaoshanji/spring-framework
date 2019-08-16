@@ -130,13 +130,17 @@ public class FileSystemXmlApplicationContext extends AbstractXmlApplicationConte
 	 * @param parent the parent context
 	 * @throws BeansException if context creation failed
 	 * @see #refresh()
+	 * 在对象的初始化过程中，调用 refresh 函数载入BeanDifinition，这个refresh启动了BeanDifinition的载入过程
 	 */
 	public FileSystemXmlApplicationContext(String[] configLocations, boolean refresh, ApplicationContext parent)
 			throws BeansException {
 
 		super(parent);
+		// AbstractRefreshableConfigApplicationContext 定义和实现
 		setConfigLocations(configLocations);
 		if (refresh) {
+			// AbstractApplicationContext 实现
+			// ConfigurableApplicationContext 定义
 			refresh();
 		}
 	}
@@ -150,6 +154,10 @@ public class FileSystemXmlApplicationContext extends AbstractXmlApplicationConte
 	 * @param path path to the resource
 	 * @return Resource handle
 	 * @see org.springframework.web.context.support.XmlWebApplicationContext#getResourceByPath
+	 * 应用于文件系统中Resource的实现，通过构造一个FileSystemResource来得到一个在文件系统中定位的BeanDifinition
+	 * 这个getResourceByPath是在BeanDifinitionReader的loadBeanDifinition中被调用的
+	 * loadBeanDifinition采用了模板模式，具体的定位实现实际上是由各个子类来完成
+	 * 
 	 */
 	@Override
 	protected Resource getResourceByPath(String path) {

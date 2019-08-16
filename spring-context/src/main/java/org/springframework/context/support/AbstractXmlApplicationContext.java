@@ -75,21 +75,30 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 * @see org.springframework.beans.factory.xml.XmlBeanDefinitionReader
 	 * @see #initBeanDefinitionReader
 	 * @see #loadBeanDefinitions
+	 * 实现 loadBeanDefinitions 的地方
 	 */
 	@Override
 	protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) throws BeansException, IOException {
 		// Create a new XmlBeanDefinitionReader for the given BeanFactory.
+		// 创建 读取器 XmlBeanDefinitionReader，并通过回调设置到 BeanFactory 中去
+		// 创建 BeanFactory 的过程与编程式使用 IoC容器一样
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
 
 		// Configure the bean definition reader with this context's
 		// resource loading environment.
 		beanDefinitionReader.setEnvironment(this.getEnvironment());
+		
+		// 设置XmlBeanDefinitionReader，为XmlBeanDefinitionReader配 ResourceLoader,因为 DefaultResourceLoader是父类
 		beanDefinitionReader.setResourceLoader(this);
 		beanDefinitionReader.setEntityResolver(new ResourceEntityResolver(this));
 
 		// Allow a subclass to provide custom initialization of the reader,
 		// then proceed with actually loading the bean definitions.
+		// 设置该读取器到 IoC容器里
+		// 启动 Bean 定义信息载入的过程
 		initBeanDefinitionReader(beanDefinitionReader);
+		
+		// 获得 读取器之后..就需要处理资源定位
 		loadBeanDefinitions(beanDefinitionReader);
 	}
 
@@ -118,10 +127,15 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 * @see #getResourcePatternResolver
 	 */
 	protected void loadBeanDefinitions(XmlBeanDefinitionReader reader) throws BeansException, IOException {
+		// 不同的资源参数走
+		// getConfigResources 自己定义，子类实现
+		// 以 Resource 的方式获得配置文件的资源位置
 		Resource[] configResources = getConfigResources();
 		if (configResources != null) {
 			reader.loadBeanDefinitions(configResources);
 		}
+		// 一般使用这种，他的实现又是在..AbstractRefreshableConfigApplicationContext
+		// 以 String 的形式获得配置文件的位置
 		String[] configLocations = getConfigLocations();
 		if (configLocations != null) {
 			reader.loadBeanDefinitions(configLocations);

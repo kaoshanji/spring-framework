@@ -118,15 +118,22 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 */
 	@Override
 	protected final void refreshBeanFactory() throws BeansException {
+		// 判断BeanFactory是否已经建立，如果已经建立就销毁并关闭
 		if (hasBeanFactory()) {
 			destroyBeans();
 			closeBeanFactory();
 		}
 		try {
+			// 创建并设置持有的DefaultListableBeanFactory的地方同时调用
+			// loadBeanDefinitions再载入BeanDefinition的信息
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
 			beanFactory.setSerializationId(getId());
 			customizeBeanFactory(beanFactory);
+			//////////自己只是定义
+			// 在 AbstractXmlApplicationContext 里实现
+			// 启动对 BeanDefinition 的载入
 			loadBeanDefinitions(beanFactory);
+			
 			synchronized (this.beanFactoryMonitor) {
 				this.beanFactory = beanFactory;
 			}
@@ -195,6 +202,8 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * @see org.springframework.beans.factory.support.DefaultListableBeanFactory#setAllowEagerClassLoading
 	 * @see org.springframework.beans.factory.support.DefaultListableBeanFactory#setAllowCircularReferences
 	 * @see org.springframework.beans.factory.support.DefaultListableBeanFactory#setAllowRawInjectionDespiteWrapping
+	 * 在上下文中创建DefaultListableBeanFactory的地方
+	 * getInternalParentBeanFactory()根据容器已有的双亲IOC容器的信息来生成 DefaultListableBeanFactory的双亲IOC容器
 	 */
 	protected DefaultListableBeanFactory createBeanFactory() {
 		return new DefaultListableBeanFactory(getInternalParentBeanFactory());

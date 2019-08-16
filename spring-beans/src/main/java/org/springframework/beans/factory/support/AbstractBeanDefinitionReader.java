@@ -178,6 +178,7 @@ public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable
 		Assert.notNull(resources, "Resource array must not be null");
 		int counter = 0;
 		for (Resource resource : resources) {
+			// XmlBeanDefinitionReader 实现
 			counter += loadBeanDefinitions(resource);
 		}
 		return counter;
@@ -202,18 +203,26 @@ public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable
 	 * @see #getResourceLoader()
 	 * @see #loadBeanDefinitions(org.springframework.core.io.Resource)
 	 * @see #loadBeanDefinitions(org.springframework.core.io.Resource[])
+	 * 资源定位集合..放在了 actualResources 里
+	 * 注意这个类 AbstractBeanDefinitionReader,可见是读取器直接持有资源
 	 */
 	public int loadBeanDefinitions(String location, Set<Resource> actualResources) throws BeanDefinitionStoreException {
+		
+		// 使用 DefaultResourceLoader 取得 ResourceLoader
 		ResourceLoader resourceLoader = getResourceLoader();
 		if (resourceLoader == null) {
 			throw new BeanDefinitionStoreException(
 					"Cannot import bean definitions from location [" + location + "]: no ResourceLoader available");
 		}
 
+		// 对 Resource的路径模式进行解析，比如 Ant格式的路径定义，得到需要的 Resource集合
+		// 这些 Resource 集合指向我们已经定义好的 BeanDefinition 信息，可以是多个文件
 		if (resourceLoader instanceof ResourcePatternResolver) {
 			// Resource pattern matching available.
 			try {
+				// 完成具体的 Resource 定义保存在 actualResources里
 				Resource[] resources = ((ResourcePatternResolver) resourceLoader).getResources(location);
+				// string 转换成了 Resource，就进入主题
 				int loadCount = loadBeanDefinitions(resources);
 				if (actualResources != null) {
 					for (Resource resource : resources) {
