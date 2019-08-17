@@ -301,7 +301,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 */
 	@Override
 	public int loadBeanDefinitions(Resource resource) throws BeanDefinitionStoreException {
-		// µ÷ÓÃÈë¿Ú
+		// è°ƒç”¨å…¥å£
 		return loadBeanDefinitions(new EncodedResource(resource));
 	}
 
@@ -311,7 +311,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * allowing to specify an encoding to use for parsing the file
 	 * @return the number of bean definitions found
 	 * @throws BeanDefinitionStoreException in case of loading or parsing errors
-	 * ÔØÈë XMLĞÎÊ½µÄ BeanDefinition µÄµØ·½
+	 * è½½å…¥ XMLå½¢å¼çš„ BeanDefinition çš„åœ°æ–¹
 	 */
 	public int loadBeanDefinitions(EncodedResource encodedResource) throws BeanDefinitionStoreException {
 		Assert.notNull(encodedResource, "EncodedResource must not be null");
@@ -328,7 +328,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			throw new BeanDefinitionStoreException(
 					"Detected cyclic loading of " + encodedResource + " - check your import definitions!");
 		}
-		// µÃµ½ XMLÎÄ¼ş£¬²¢µÃµ½ IOµÄInputStream×¼±¸½øĞĞ¶ÁÈ¡
+		// å¾—åˆ° XMLæ–‡ä»¶ï¼Œå¹¶å¾—åˆ° IOçš„InputStreamå‡†å¤‡è¿›è¡Œè¯»å–
 		try {
 			InputStream inputStream = encodedResource.getResource().getInputStream();
 			try {
@@ -388,16 +388,16 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @throws BeanDefinitionStoreException in case of loading or parsing errors
 	 * @see #doLoadDocument
 	 * @see #registerBeanDefinitions
-	 * ¾ßÌåµÄ¶ÁÈ¡¹ı³Ì....¿ªÊ¼...
-	 * ´ÓÌØ¶¨µÄXMLÎÄ¼şÖĞÊµ¼ÊÔØÈëBeanDefinitionµÄµØ·½
+	 * å…·ä½“çš„è¯»å–è¿‡ç¨‹....å¼€å§‹...
+	 * ä»ç‰¹å®šçš„XMLæ–‡ä»¶ä¸­å®é™…è½½å…¥BeanDefinitionçš„åœ°æ–¹
 	 */
 	protected int doLoadBeanDefinitions(InputSource inputSource, Resource resource)
 			throws BeanDefinitionStoreException {
 		try {
-			// »ñÈ¡XMLÎÄ¼şµÄDocument¶ÔÏó£¬½âÎö¹ı³ÌÊÇÓÉ documentLoader Íê³É
+			// è·å–XMLæ–‡ä»¶çš„Documentå¯¹è±¡ï¼Œè§£æè¿‡ç¨‹æ˜¯ç”± documentLoader å®Œæˆ
 			Document doc = doLoadDocument(inputSource, resource);
-			// Æô¶¯¶Ô BeanDefinition ½âÎöµÄÏêÏ¸¹ı³Ì
-			// Õâ¸ö½âÎö»áÊ¹ÓÃµ½SpringµÄBeanÅäÖÃ¹æÔò...BeanDefinitionDocumentReader¾ßÌå¸É»î
+			// å¯åŠ¨å¯¹ BeanDefinition è§£æçš„è¯¦ç»†è¿‡ç¨‹
+			// è¿™ä¸ªè§£æä¼šä½¿ç”¨åˆ°Springçš„Beané…ç½®è§„åˆ™...BeanDefinitionDocumentReaderå…·ä½“å¹²æ´»
 			return registerBeanDefinitions(doc, resource);
 		}
 		catch (BeanDefinitionStoreException ex) {
@@ -510,15 +510,15 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 	 * @see #loadBeanDefinitions
 	 * @see #setDocumentReaderClass
 	 * @see BeanDefinitionDocumentReader#registerBeanDefinitions
-	 * BeanDefinitionµÄÔØÈë·Ö³ÉÁ½²¿·Ö£¬Ê×ÏÈÍ¨¹ıµ÷ÓÃXML½âÎöÆ÷µÃµ½document¶ÔÏó£¬µ«ÕâĞ©document¶ÔÏó²¢Ã»ÓĞ°´ÕÕSpringµÄBean¹æÔò½øĞĞ½âÎö
-	 * ÔÚÍê³ÉÍ¨ÓÃµÄXML½âÎöÒÔºó£¬²ÅÊÇ°´ÕÕSpringµÄBean¹æÔò½øĞĞ½âÎö£¬Õâ¸ö¹ı³ÌÊÇÔÚ documentReader ÖĞÊµÏÖµÄ
+	 * BeanDefinitionçš„è½½å…¥åˆ†æˆä¸¤éƒ¨åˆ†ï¼Œé¦–å…ˆé€šè¿‡è°ƒç”¨XMLè§£æå™¨å¾—åˆ°documentå¯¹è±¡ï¼Œä½†è¿™äº›documentå¯¹è±¡å¹¶æ²¡æœ‰æŒ‰ç…§Springçš„Beanè§„åˆ™è¿›è¡Œè§£æ
+	 * åœ¨å®Œæˆé€šç”¨çš„XMLè§£æä»¥åï¼Œæ‰æ˜¯æŒ‰ç…§Springçš„Beanè§„åˆ™è¿›è¡Œè§£æï¼Œè¿™ä¸ªè¿‡ç¨‹æ˜¯åœ¨ documentReader ä¸­å®ç°çš„
 	 */
 	public int registerBeanDefinitions(Document doc, Resource resource) throws BeanDefinitionStoreException {
-		// BeanDefinitionDocumentReader ¶ÔXMLµÄ BeanDefinition ½øĞĞ½âÎö
+		// BeanDefinitionDocumentReader å¯¹XMLçš„ BeanDefinition è¿›è¡Œè§£æ
 		BeanDefinitionDocumentReader documentReader = createBeanDefinitionDocumentReader();
 		int countBefore = getRegistry().getBeanDefinitionCount();
 		
-		//¾ßÌå½âÎö¹ı³ÌÔÚÕâÀïÍê³É
+		// å…·ä½“è§£æè¿‡ç¨‹åœ¨è¿™é‡Œå®Œæˆ
 		documentReader.registerBeanDefinitions(doc, createReaderContext(resource));
 		return getRegistry().getBeanDefinitionCount() - countBefore;
 	}

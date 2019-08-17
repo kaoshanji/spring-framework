@@ -178,7 +178,7 @@ public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable
 		Assert.notNull(resources, "Resource array must not be null");
 		int counter = 0;
 		for (Resource resource : resources) {
-			// XmlBeanDefinitionReader ÊµÏÖ
+			// XmlBeanDefinitionReader å®ç°
 			counter += loadBeanDefinitions(resource);
 		}
 		return counter;
@@ -203,26 +203,26 @@ public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable
 	 * @see #getResourceLoader()
 	 * @see #loadBeanDefinitions(org.springframework.core.io.Resource)
 	 * @see #loadBeanDefinitions(org.springframework.core.io.Resource[])
-	 * ×ÊÔ´¶¨Î»¼¯ºÏ..·ÅÔÚÁË actualResources Àï
-	 * ×¢ÒâÕâ¸öÀà AbstractBeanDefinitionReader,¿É¼ûÊÇ¶ÁÈ¡Æ÷Ö±½Ó³ÖÓĞ×ÊÔ´
+	 * èµ„æºå®šä½é›†åˆ..æ”¾åœ¨äº† actualResources é‡Œ
+	 *×¢æ³¨æ„è¿™ä¸ªç±» AbstractBeanDefinitionReader,å¯è§æ˜¯è¯»å–å™¨ç›´æ¥æŒæœ‰èµ„æº
 	 */
 	public int loadBeanDefinitions(String location, Set<Resource> actualResources) throws BeanDefinitionStoreException {
 		
-		// Ê¹ÓÃ DefaultResourceLoader È¡µÃ ResourceLoader
+		// ä½¿ç”¨ DefaultResourceLoader å–å¾— ResourceLoader
 		ResourceLoader resourceLoader = getResourceLoader();
 		if (resourceLoader == null) {
 			throw new BeanDefinitionStoreException(
 					"Cannot import bean definitions from location [" + location + "]: no ResourceLoader available");
 		}
 
-		// ¶Ô ResourceµÄÂ·¾¶Ä£Ê½½øĞĞ½âÎö£¬±ÈÈç Ant¸ñÊ½µÄÂ·¾¶¶¨Òå£¬µÃµ½ĞèÒªµÄ Resource¼¯ºÏ
-		// ÕâĞ© Resource ¼¯ºÏÖ¸ÏòÎÒÃÇÒÑ¾­¶¨ÒåºÃµÄ BeanDefinition ĞÅÏ¢£¬¿ÉÒÔÊÇ¶à¸öÎÄ¼ş
+		// å¯¹ Resourceçš„è·¯å¾„æ¨¡å¼è¿›è¡Œè§£æï¼Œæ¯”å¦‚ Antæ ¼å¼çš„è·¯å¾„å®šä¹‰ï¼Œå¾—åˆ°éœ€è¦çš„ Resourceé›†åˆ
+		// è¿™äº› Resource é›†åˆæŒ‡å‘æˆ‘ä»¬å·²ç»å®šä¹‰å¥½çš„ BeanDefinition ä¿¡æ¯ï¼Œå¯ä»¥æ˜¯å¤šä¸ªæ–‡ä»¶
 		if (resourceLoader instanceof ResourcePatternResolver) {
 			// Resource pattern matching available.
 			try {
-				// Íê³É¾ßÌåµÄ Resource ¶¨Òå±£´æÔÚ actualResourcesÀï
+				// å®Œæˆå…·ä½“çš„ Resource å®šä¹‰ä¿å­˜åœ¨ actualResourcesé‡Œ
 				Resource[] resources = ((ResourcePatternResolver) resourceLoader).getResources(location);
-				// string ×ª»»³ÉÁË Resource£¬¾Í½øÈëÖ÷Ìâ
+				// string è½¬æ¢æˆäº† Resourceï¼Œå°±è¿›å…¥ä¸»é¢˜
 				int loadCount = loadBeanDefinitions(resources);
 				if (actualResources != null) {
 					for (Resource resource : resources) {

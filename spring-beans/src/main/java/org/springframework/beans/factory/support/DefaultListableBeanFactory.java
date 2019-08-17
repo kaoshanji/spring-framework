@@ -835,8 +835,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		else {
 			if (hasBeanCreationStarted()) {
 				// Cannot modify startup-time collection elements anymore (for stable iteration)
-				// ×¢²áµÄ¹ı³ÌĞèÒª synchronized,±£Ö¤Êı¾İµÄÒ»ÖÂĞÔ
-				// ¿É¼û½âÎöÖ®ºóµÃµ½µÄbeanDefinition ¶¼ÊÇ±£´æÔÚÕâ¸ömapÀï
+				// æ³¨å†Œçš„è¿‡ç¨‹éœ€è¦ synchronized,ä¿è¯æ•°æ®çš„ä¸€è‡´æ€§
+				// å¯è§è§£æä¹‹åå¾—åˆ°çš„beanDefinition éƒ½æ˜¯ä¿å­˜åœ¨è¿™ä¸ªmapé‡Œ
 				synchronized (this.beanDefinitionMap) {
 					this.beanDefinitionMap.put(beanName, beanDefinition);
 					
@@ -853,8 +853,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 			else {
 				// Still in startup registration phase
-				// ÕâÊÇÕı³£×¢²á beanDefinitionµÄ¹ı³Ì
-				// °Ñ Bean µÄÃû×Ö´æÈëµ½beanDefinitionNamesµÄÍ¬Ê±£¬°Ñ key=beanName,value=beanDefinition´æÈëµ½IoCÈİÆ÷³ÖÓĞµÄbeanDefinitionMapÖĞÈ¥
+				// è¿™æ˜¯æ­£å¸¸æ³¨å†Œ beanDefinitionçš„è¿‡ç¨‹
+				// æŠŠ Bean çš„åå­—å­˜å…¥åˆ°beanDefinitionNamesçš„åŒæ—¶ï¼ŒæŠŠ key=beanName,value=beanDefinitionå­˜å…¥åˆ°IoCå®¹å™¨æŒæœ‰çš„beanDefinitionMapä¸­å»
 				this.beanDefinitionMap.put(beanName, beanDefinition);
 				this.beanDefinitionNames.add(beanName);
 				this.manualSingletonNames.remove(beanName);

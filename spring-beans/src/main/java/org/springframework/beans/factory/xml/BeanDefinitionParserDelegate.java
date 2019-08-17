@@ -434,7 +434,7 @@ public class BeanDefinitionParserDelegate {
 	 * {@link org.springframework.beans.factory.parsing.ProblemReporter}.
 	 */
 	public BeanDefinitionHolder parseBeanDefinitionElement(Element ele, BeanDefinition containingBean) {
-		// <bean>ÔªËØÖĞ¶¨ÒåµÄ id¡¢name¡¢aliaseÊôĞÔµÄÖµ
+		// <bean>å…ƒç´ ä¸­å®šä¹‰çš„ idã€nameã€aliaseå±æ€§çš„å€¼
 		String id = ele.getAttribute(ID_ATTRIBUTE);
 		String nameAttr = ele.getAttribute(NAME_ATTRIBUTE);
 
@@ -457,8 +457,8 @@ public class BeanDefinitionParserDelegate {
 			checkNameUniqueness(beanName, aliases, ele);
 		}
 
-		// ¿´ÆğÀ´ÊÇ»ñµÃ¶ÔÏó
-		// ÆäÊµÊÇÒı·¢¶ÔBeanÔªËØµÄÏêÏ¸½âÎö£¬½ö¹Ø×¢½á¹û
+		// çœ‹èµ·æ¥æ˜¯è·å¾—å¯¹è±¡
+		// å…¶å®æ˜¯å¼•å‘å¯¹Beanå…ƒç´ çš„è¯¦ç»†è§£æï¼Œä»…å…³æ³¨ç»“æœ
 		AbstractBeanDefinition beanDefinition = parseBeanDefinitionElement(ele, beanName, containingBean);
 		if (beanDefinition != null) {
 			if (!StringUtils.hasText(beanName)) {
@@ -520,15 +520,15 @@ public class BeanDefinitionParserDelegate {
 	/**
 	 * Parse the bean definition itself, without regard to name or aliases. May return
 	 * {@code null} if problems occurred during the parsing of the bean definition.
-	 * ¶ÔBeanDefinition¶¨ÒåÔªËØµÄ´¦Àí
+	 * å¯¹BeanDefinitionå®šä¹‰å…ƒç´ çš„å¤„ç†
 	 */
 	public AbstractBeanDefinition parseBeanDefinitionElement(
 			Element ele, String beanName, BeanDefinition containingBean) {
 
 		this.parseState.push(new BeanEntry(beanName));
 
-		// Ö»¶ÁÈ¡¶¨ÒåµÄ<bean>ÖĞÉèÖÃµÄclassÃû×Ö£¬È»ºóÔØÈëµ½BeanDefinitionÖĞÈ¥
-		// Ö»ÊÇ×ö¸ö¼ÇÂ¼£¬¶ÔÏóµÄÊµÀı»¯ÊÇÔÚÒÀÀµ×¢ÈëÊ±Íê³É
+		// Ö»åªè¯»å–å®šä¹‰çš„<bean>ä¸­è®¾ç½®çš„classåå­—ï¼Œç„¶åè½½å…¥åˆ°BeanDefinitionä¸­å»
+		// åªæ˜¯åšä¸ªè®°å½•ï¼Œå¯¹è±¡çš„å®ä¾‹åŒ–æ˜¯åœ¨ä¾èµ–æ³¨å…¥æ—¶å®Œæˆ
 		String className = null;
 		if (ele.hasAttribute(CLASS_ATTRIBUTE)) {
 			className = ele.getAttribute(CLASS_ATTRIBUTE).trim();
@@ -539,22 +539,22 @@ public class BeanDefinitionParserDelegate {
 			if (ele.hasAttribute(PARENT_ATTRIBUTE)) {
 				parent = ele.getAttribute(PARENT_ATTRIBUTE);
 			}
-			// Éú³ÉĞèÒªµÄ BeanDefinition¶ÔÏó£¬ÎªBean¶¨ÒåĞÅÏ¢µÄÔØÈë×ö×¼±¸
+			// ç”Ÿæˆéœ€è¦çš„ BeanDefinitionå¯¹è±¡ï¼Œä¸ºBeanå®šä¹‰ä¿¡æ¯çš„è½½å…¥åšå‡†å¤‡
 			AbstractBeanDefinition bd = createBeanDefinition(className, parent);
 
-			// ¶Ôµ±Ç°BeanÔªËØÊôĞÔ½âÎö£¬²¢ÉèÖÃdescriptionĞÅÏ¢
+			// å¯¹å½“å‰Beanå…ƒç´ å±æ€§è§£æï¼Œå¹¶è®¾ç½®descriptionä¿¡æ¯
 			parseBeanDefinitionAttributes(ele, beanName, containingBean, bd);
 			bd.setDescription(DomUtils.getChildElementValueByTagName(ele, DESCRIPTION_ELEMENT));
 
-			// ¶Ô¸÷ÖÖ<bean>ÔªËØµÄĞÅÏ¢½øĞĞ½âÎöµÄµØ·½
+			// å¯¹å„ç§<bean>å…ƒç´ çš„ä¿¡æ¯è¿›è¡Œè§£æçš„åœ°æ–¹
 			parseMetaElements(ele, bd);
 			parseLookupOverrideSubElements(ele, bd.getMethodOverrides());
 			parseReplacedMethodSubElements(ele, bd.getMethodOverrides());
 
-			// ½âÎö<bean>µÄ¹¹Ôìº¯ÊıÉèÖÃ
+			// è§£æ<bean>çš„æ„é€ å‡½æ•°è®¾ç½®
 			parseConstructorArgElements(ele, bd);
 			
-			// ½âÎö<bean>µÄpropertyÉèÖÃ
+			// è§£æ<bean>çš„propertyè®¾ç½®
 			parsePropertyElements(ele, bd);
 			parseQualifierElements(ele, bd);
 
@@ -563,7 +563,7 @@ public class BeanDefinitionParserDelegate {
 
 			return bd;
 		}
-		// ¸÷ÖÖÒì³£ĞÅÏ¢.......
+		// å„ç§å¼‚å¸¸ä¿¡æ¯.......
 		catch (ClassNotFoundException ex) {
 			error("Bean class [" + className + "] not found", ele, ex);
 		}
@@ -758,15 +758,15 @@ public class BeanDefinitionParserDelegate {
 
 	/**
 	 * Parse property sub-elements of the given bean element.
-	 * ¶ÔÖ¸¶¨BeanÔªËØµÄproperty×ÓÔªËØ¼¯ºÏ½øĞĞ½âÎö
+	 * å¯¹æŒ‡å®šBeanå…ƒç´ çš„propertyå­å…ƒç´ é›†åˆè¿›è¡Œè§£æ
 	 */
 	public void parsePropertyElements(Element beanEle, BeanDefinition bd) {
-		// ±éÀúËùÓĞBeanÔªËØÏÂ¶¨ÒåµÄpropertyÔªËØ
+		// éå†æ‰€æœ‰Beanå…ƒç´ ä¸‹å®šä¹‰çš„propertyå…ƒç´ 
 		NodeList nl = beanEle.getChildNodes();
 		for (int i = 0; i < nl.getLength(); i++) {
 			Node node = nl.item(i);
 			if (isCandidateElement(node) && nodeNameEquals(node, PROPERTY_ELEMENT)) {
-				// ÅĞ¶ÏÊÇpropertyÔªËØºó¶Ô¸ÃpropertyÔªËØ½øĞĞ½âÎöµÄ¹ı³Ì
+				// åˆ¤æ–­æ˜¯propertyå…ƒç´ åå¯¹è¯¥propertyå…ƒç´ è¿›è¡Œè§£æçš„è¿‡ç¨‹
 				parsePropertyElement((Element) node, bd);
 			}
 		}
@@ -895,7 +895,7 @@ public class BeanDefinitionParserDelegate {
 	 * Parse a property element.
 	 */
 	public void parsePropertyElement(Element ele, BeanDefinition bd) {
-		// propertyµÄÃû×Ö
+		// propertyçš„åå­—
 		String propertyName = ele.getAttribute(NAME_ATTRIBUTE);
 		if (!StringUtils.hasLength(propertyName)) {
 			error("Tag 'property' must have a 'name' attribute", ele);
@@ -903,14 +903,14 @@ public class BeanDefinitionParserDelegate {
 		}
 		this.parseState.push(new PropertyEntry(propertyName));
 		try {
-			// ÔÚÍ¬Ò»¸öBeanÖĞÓĞÍ¬ÃûµÄpropertyÉèÖÃ¡£Æğ×÷ÓÃµÄÖ»ÊÇµÚÒ»¸ö
+			// åœ¨åŒä¸€ä¸ªBeanä¸­æœ‰åŒåçš„propertyè®¾ç½®ã€‚èµ·ä½œç”¨çš„åªæ˜¯ç¬¬ä¸€ä¸ª
 			if (bd.getPropertyValues().contains(propertyName)) {
 				error("Multiple 'property' definitions for property '" + propertyName + "'", ele);
 				return;
 			}
-			// ½âÎöpropertyÖµ
-			// ·µ»ØµÄ¶ÔÏó¶ÔÓ¦¶ÔBean¶¨ÒåµÄpropertyÊôĞÔÉèÖÃµÄ½âÎö½á¹û
-			// ½âÎö½á¹û»á·â×°µ½PropertyValue¶ÔÏóÖĞ£¬È»ºóÉèÖÃµ½BeanDefinitionHolderÖĞÈ¥
+			// è§£æpropertyå€¼
+			// è¿”å›çš„å¯¹è±¡å¯¹åº”å¯¹Beanå®šä¹‰çš„propertyå±æ€§è®¾ç½®çš„è§£æç»“æœ
+			// è§£æç»“æœä¼šå°è£…åˆ°PropertyValueå¯¹è±¡ä¸­ï¼Œç„¶åè®¾ç½®åˆ°BeanDefinitionHolderä¸­å»
 			Object val = parsePropertyValue(ele, bd, propertyName);
 			PropertyValue pv = new PropertyValue(propertyName, val);
 			parseMetaElements(ele, pv);
@@ -967,8 +967,8 @@ public class BeanDefinitionParserDelegate {
 	/**
 	 * Get the value of a property element. May be a list etc.
 	 * Also used for constructor arguments, "propertyName" being null in this case.
-	 * »ñÈ¡ propertyÔªËØµÄÖµ
-	 * Ò²ÊÇÊÇÒ»¸ölist»òÕßÆäËû...
+	 * è·å– propertyå…ƒç´ çš„å€¼
+	 * ä¹Ÿæ˜¯æ˜¯ä¸€ä¸ªlistæˆ–è€…å…¶ä»–...
 	 */
 	public Object parsePropertyValue(Element ele, BeanDefinition bd, String propertyName) {
 		String elementName = (propertyName != null) ?
@@ -992,7 +992,7 @@ public class BeanDefinitionParserDelegate {
 			}
 		}
 
-		// property µÄÊôĞÔ£¬ÊÇ ref »¹ÊÇ value£¬²»ÔÊĞíÍ¬Ê±ÊÇ refºÍvalue
+		// property çš„å±æ€§ï¼Œæ˜¯ ref è¿˜æ˜¯ valueï¼Œä¸å…è®¸åŒæ—¶æ˜¯ refå’Œvalue
 		boolean hasRefAttribute = ele.hasAttribute(REF_ATTRIBUTE);
 		boolean hasValueAttribute = ele.hasAttribute(VALUE_ATTRIBUTE);
 		if ((hasRefAttribute && hasValueAttribute) ||
@@ -1001,8 +1001,8 @@ public class BeanDefinitionParserDelegate {
 					" is only allowed to contain either 'ref' attribute OR 'value' attribute OR sub-element", ele);
 		}
 
-		// Èç¹ûÊÇ ref
-		// ´´½¨Ò»¸ö ref µÄÊı¾İ¶ÔÏó RuntimeBeanReference£¬Õâ¸ö¶ÔÏó·â×°ÁËrefµÄĞÅÏ¢
+		// å¦‚æœæ˜¯ ref
+		// åˆ›å»ºä¸€ä¸ª ref çš„æ•°æ®å¯¹è±¡ RuntimeBeanReferenceï¼Œè¿™ä¸ªå¯¹è±¡å°è£…äº†refçš„ä¿¡æ¯
 		if (hasRefAttribute) {
 			String refName = ele.getAttribute(REF_ATTRIBUTE);
 			if (!StringUtils.hasText(refName)) {
@@ -1012,14 +1012,14 @@ public class BeanDefinitionParserDelegate {
 			ref.setSource(extractSource(ele));
 			return ref;
 		}
-		// Èç¹ûÊÇvalue£¬´´½¨Ò»¸övalueµÄÊı¾İ¶ÔÏóTypedStringValue
+		// å¦‚æœæ˜¯valueï¼Œåˆ›å»ºä¸€ä¸ªvalueçš„æ•°æ®å¯¹è±¡TypedStringValue
 		else if (hasValueAttribute) {
 			TypedStringValue valueHolder = new TypedStringValue(ele.getAttribute(VALUE_ATTRIBUTE));
 			valueHolder.setSource(extractSource(ele));
 			return valueHolder;
 		}
-		// »¹ÓĞ×ÓÔªËØ£¬´¥·¢¶Ô×ÓÔªËØµÄ½âÎö
-		// ÓĞºÜ¶à...±ÈÈç¼¯ºÏÔªËØ
+		// è¿˜æœ‰å­å…ƒç´ ï¼Œè§¦å‘å¯¹å­å…ƒç´ çš„è§£æ
+		// æœ‰å¾ˆå¤š...æ¯”å¦‚é›†åˆå…ƒç´ 
 		else if (subElement != null) {
 			return parsePropertySubElement(subElement, bd);
 		}
@@ -1204,7 +1204,7 @@ public class BeanDefinitionParserDelegate {
 		target.setElementTypeName(defaultElementType);
 		target.setMergeEnabled(parseMergeAttribute(collectionEle));
 		
-		// ¾ßÌåµÄListÔªËØµÄ½âÎö¹ı³Ì
+		// å…·ä½“çš„Listå…ƒç´ çš„è§£æè¿‡ç¨‹
 		parseCollectionElements(nl, target, bd, defaultElementType);
 		return target;
 	}
@@ -1226,12 +1226,12 @@ public class BeanDefinitionParserDelegate {
 	protected void parseCollectionElements(
 			NodeList elementNodes, Collection<Object> target, BeanDefinition bd, String defaultElementType) {
 
-		// ±éÀúËùÓĞµÄÔªËØ½Úµã£¬²¢ÅĞ¶ÏÆäÀàĞÍÊÇ·ñÎªElement
+		// éå†æ‰€æœ‰çš„å…ƒç´ èŠ‚ç‚¹ï¼Œå¹¶åˆ¤æ–­å…¶ç±»å‹æ˜¯å¦ä¸ºElement
 		for (int i = 0; i < elementNodes.getLength(); i++) {
 			Node node = elementNodes.item(i);
 			if (node instanceof Element && !nodeNameEquals(node, DESCRIPTION_ELEMENT)) {
-				// ¼ÓÈëµ½targetÖĞ£¬targetÊÇÒ»¸öManageList£¬Í¬Ê±´¥·¢¶ÔÏÂÒ»²ã×ÓÔªËØµÄ½âÎö¹ı³Ì
-				// ÕâÊÇÒ»¸öµİ¹éµÄµ÷ÓÃ
+				// åŠ å…¥åˆ°targetä¸­ï¼Œtargetæ˜¯ä¸ªManagedListï¼ŒåŒæ—¶è§¦å‘å¯¹ä¸‹ä¸€å±‚å­å…ƒç´ çš„è§£æè¿‡ç¨‹
+				// è¿™æ˜¯ä¸€ä¸ªé€’å½’çš„è°ƒç”¨
 				target.add(parsePropertySubElement((Element) node, bd, defaultElementType));
 			}
 		}

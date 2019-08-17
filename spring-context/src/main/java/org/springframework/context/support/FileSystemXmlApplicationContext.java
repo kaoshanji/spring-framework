@@ -130,17 +130,17 @@ public class FileSystemXmlApplicationContext extends AbstractXmlApplicationConte
 	 * @param parent the parent context
 	 * @throws BeansException if context creation failed
 	 * @see #refresh()
-	 * ÔÚ¶ÔÏóµÄ³õÊ¼»¯¹ı³ÌÖĞ£¬µ÷ÓÃ refresh º¯ÊıÔØÈëBeanDifinition£¬Õâ¸örefreshÆô¶¯ÁËBeanDifinitionµÄÔØÈë¹ı³Ì
+	 * åœ¨å¯¹è±¡çš„åˆå§‹åŒ–è¿‡ç¨‹ä¸­ï¼Œè°ƒç”¨ refresh å‡½æ•°è½½å…¥BeanDifinitionï¼Œè¿™ä¸ªrefreshå¯åŠ¨äº†BeanDifinitionçš„è½½å…¥è¿‡ç¨‹
 	 */
 	public FileSystemXmlApplicationContext(String[] configLocations, boolean refresh, ApplicationContext parent)
 			throws BeansException {
 
 		super(parent);
-		// AbstractRefreshableConfigApplicationContext ¶¨ÒåºÍÊµÏÖ
+		// AbstractRefreshableConfigApplicationContext å®šä¹‰å’Œå®ç°
 		setConfigLocations(configLocations);
 		if (refresh) {
-			// AbstractApplicationContext ÊµÏÖ
-			// ConfigurableApplicationContext ¶¨Òå
+			// AbstractApplicationContext å®ç°
+			// ConfigurableApplicationContext å®šä¹‰
 			refresh();
 		}
 	}
@@ -154,9 +154,9 @@ public class FileSystemXmlApplicationContext extends AbstractXmlApplicationConte
 	 * @param path path to the resource
 	 * @return Resource handle
 	 * @see org.springframework.web.context.support.XmlWebApplicationContext#getResourceByPath
-	 * Ó¦ÓÃÓÚÎÄ¼şÏµÍ³ÖĞResourceµÄÊµÏÖ£¬Í¨¹ı¹¹ÔìÒ»¸öFileSystemResourceÀ´µÃµ½Ò»¸öÔÚÎÄ¼şÏµÍ³ÖĞ¶¨Î»µÄBeanDifinition
-	 * Õâ¸ögetResourceByPathÊÇÔÚBeanDifinitionReaderµÄloadBeanDifinitionÖĞ±»µ÷ÓÃµÄ
-	 * loadBeanDifinition²ÉÓÃÁËÄ£°åÄ£Ê½£¬¾ßÌåµÄ¶¨Î»ÊµÏÖÊµ¼ÊÉÏÊÇÓÉ¸÷¸ö×ÓÀàÀ´Íê³É
+	 * åº”ç”¨äºæ–‡ä»¶ç³»ç»Ÿä¸­Resourceçš„å®ç°ï¼Œé€šè¿‡æ„é€ ä¸€ä¸ªFileSystemResourceæ¥å¾—åˆ°ä¸€ä¸ªåœ¨æ–‡ä»¶ç³»ç»Ÿä¸­å®šä½çš„BeanDifinition
+	 * è¿™ä¸ªgetResourceByPathæ˜¯åœ¨BeanDifinitionReaderçš„loadBeanDifinitionä¸­è¢«è°ƒç”¨çš„
+	 * loadBeanDifinitioné‡‡ç”¨äº†æ¨¡æ¿æ¨¡å¼ï¼Œå…·ä½“çš„å®šä½å®ç°å®é™…ä¸Šæ˜¯ç”±å„ä¸ªå­ç±»æ¥å®Œæˆ
 	 * 
 	 */
 	@Override

@@ -511,8 +511,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
-			// »ñµÃ BeanFactory £¬³õ²½ÊµÏÖ BeanDifinition ½âÎö
-			// ÔÚ×ÓÀàÆô¶¯ refreshBeanFactory() µÄµØ·½
+			// è·å¾— BeanFactory ï¼Œåˆæ­¥å®ç° BeanDifinition è§£æ
+			// åœ¨å­ç±»å¯åŠ¨ refreshBeanFactory() çš„åœ°æ–¹
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
@@ -520,39 +520,39 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 			try {
 				// Allows post-processing of the bean factory in context subclasses.
-				// ÉèÖÃ BeanFactory µÄºóÖÃ´¦Àí
+				// è®¾ç½® BeanFactory çš„åç½®å¤„ç†
 				postProcessBeanFactory(beanFactory);
 
 				// Invoke factory processors registered as beans in the context.
-				// µ÷ÓÃ BeanFactory µÄºóÖÃ´¦ÀíÆ÷£¬ÕâĞ©ºó´¦ÀíÆ÷ÊÇÔÚBean¶¨ÒåÖĞÏòÈİÆ÷×¢²áµÄ
+				// è°ƒç”¨ BeanFactory çš„åç½®å¤„ç†å™¨ï¼Œè¿™äº›åå¤„ç†å™¨æ˜¯åœ¨Beanå®šä¹‰ä¸­å‘å®¹å™¨æ³¨å†Œçš„
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
-				// ×¢²á BeanFactory µÄºó´¦ÀíÆ÷£¬ÔÚBean´´½¨¹ı³ÌÖĞµ÷ÓÃ
+				// æ³¨å†Œ BeanFactory çš„åå¤„ç†å™¨ï¼Œåœ¨Beanåˆ›å»ºè¿‡ç¨‹ä¸­è°ƒç”¨
 				registerBeanPostProcessors(beanFactory);
 
 				// Initialize message source for this context.
-				// ¶ÔÉÏÏÂÎÄÖĞµÄÏûÏ¢Ô´½øĞĞ³õÊ¼»¯
+				// å¯¹ä¸Šä¸‹æ–‡ä¸­çš„æ¶ˆæ¯æºè¿›è¡Œåˆå§‹åŒ–
 				initMessageSource();
 
 				// Initialize event multicaster for this context.
-				// ³õÊ¼»¯ÉÏÏÂÎÄÖĞµÄÊÂ¼ş»úÖÆ
+				// åˆå§‹åŒ–ä¸Šä¸‹æ–‡ä¸­çš„äº‹ä»¶æœºåˆ¶
 				initApplicationEventMulticaster();
 
 				// Initialize other special beans in specific context subclasses.
-				// ³õÊ¼»¯ÆäËûÌØÊâBean
+				// åˆå§‹åŒ–å…¶ä»–ç‰¹æ®ŠBean
 				onRefresh();
 
 				// Check for listener beans and register them.
-				// ¼ì²é¼àÌıBean²¢ÇÒ½«ÕâĞ©BeanÏòÈİÆ÷×¢²á
+				//  æ£€æŸ¥ç›‘å¬Beanå¹¶ä¸”å°†è¿™äº›Beanå‘å®¹å™¨æ³¨å†Œ
 				registerListeners();
 
 				// Instantiate all remaining (non-lazy-init) singletons.
-				// ÊµÀı»¯ËùÓĞµÄ(non-lazy-init)µ¥¼ş
+				// å®ä¾‹åŒ–æ‰€æœ‰çš„(non-lazy-init)å•ä»¶
 				finishBeanFactoryInitialization(beanFactory);
 
 				// Last step: publish corresponding event.
-				// ·¢²¼ÈİÆ÷ÊÂ¼ş£¬½áÊø Refresh ¹ı³Ì
+				// å‘å¸ƒå®¹å™¨äº‹ä»¶ï¼Œç»“æŸ Refresh è¿‡ç¨‹
 				finishRefresh();
 			}
 
@@ -563,11 +563,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				}
 
 				// Destroy already created singletons to avoid dangling resources.
-				// Îª·ÀÖ¹ Bean ×ÊÔ´Õ¼ÓÃ£¬ÔÚÒì³£´¦ÀíÖĞ£¬Ïú»ÙÒÑ¾­ÔÚÇ°Ãæ¹ı³ÌÖĞÉú³ÉµÄµ¥¼şBean
+				// ä¸ºé˜²æ­¢ Bean èµ„æºå ç”¨ï¼Œåœ¨å¼‚å¸¸å¤„ç†ä¸­ï¼Œé”€æ¯å·²ç»åœ¨å‰é¢è¿‡ç¨‹ä¸­ç”Ÿæˆçš„å•ä»¶Bean
 				destroyBeans();
 
 				// Reset 'active' flag.
-				// ÖØÖÃ active ±êÖ¾
+				// é‡ç½® active æ ‡å¿—Ö¾
 				cancelRefresh(ex);
 
 				// Propagate exception to caller.
@@ -624,7 +624,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see #getBeanFactory()
 	 */
 	protected ConfigurableListableBeanFactory obtainFreshBeanFactory() {
-		// ³õÊ¼µÄµØ·½ ÔÚ ×ÓÀà AbstractRefreshableApplicationContext ÀïÊµÏÖ
+		// åˆå§‹çš„åœ°æ–¹ åœ¨ å­ç±» AbstractRefreshableApplicationContext é‡Œå®ç°
 		refreshBeanFactory();
 		
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();

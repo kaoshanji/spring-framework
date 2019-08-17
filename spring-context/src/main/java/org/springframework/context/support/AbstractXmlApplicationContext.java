@@ -75,30 +75,30 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 * @see org.springframework.beans.factory.xml.XmlBeanDefinitionReader
 	 * @see #initBeanDefinitionReader
 	 * @see #loadBeanDefinitions
-	 * ÊµÏÖ loadBeanDefinitions µÄµØ·½
+	 * å®ç° loadBeanDefinitions çš„åœ°æ–¹
 	 */
 	@Override
 	protected void loadBeanDefinitions(DefaultListableBeanFactory beanFactory) throws BeansException, IOException {
 		// Create a new XmlBeanDefinitionReader for the given BeanFactory.
-		// ´´½¨ ¶ÁÈ¡Æ÷ XmlBeanDefinitionReader£¬²¢Í¨¹ı»Øµ÷ÉèÖÃµ½ BeanFactory ÖĞÈ¥
-		// ´´½¨ BeanFactory µÄ¹ı³ÌÓë±à³ÌÊ½Ê¹ÓÃ IoCÈİÆ÷Ò»Ñù
+		// åˆ›å»º è¯»å–å™¨ XmlBeanDefinitionReaderï¼Œå¹¶é€šè¿‡å›è°ƒè®¾ç½®åˆ° BeanFactory ä¸­å»
+		// åˆ›å»º BeanFactory çš„è¿‡ç¨‹ä¸ç¼–ç¨‹å¼ä½¿ç”¨ IoCå®¹å™¨ä¸€æ ·
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
 
 		// Configure the bean definition reader with this context's
 		// resource loading environment.
 		beanDefinitionReader.setEnvironment(this.getEnvironment());
 		
-		// ÉèÖÃXmlBeanDefinitionReader£¬ÎªXmlBeanDefinitionReaderÅä ResourceLoader,ÒòÎª DefaultResourceLoaderÊÇ¸¸Àà
+		// è®¾ç½®XmlBeanDefinitionReaderï¼Œä¸ºXmlBeanDefinitionReaderé… ResourceLoader,å› ä¸º DefaultResourceLoaderæ˜¯çˆ¶ç±»
 		beanDefinitionReader.setResourceLoader(this);
 		beanDefinitionReader.setEntityResolver(new ResourceEntityResolver(this));
 
 		// Allow a subclass to provide custom initialization of the reader,
 		// then proceed with actually loading the bean definitions.
-		// ÉèÖÃ¸Ã¶ÁÈ¡Æ÷µ½ IoCÈİÆ÷Àï
-		// Æô¶¯ Bean ¶¨ÒåĞÅÏ¢ÔØÈëµÄ¹ı³Ì
+		// è®¾ç½®è¯¥è¯»å–å™¨åˆ° IoCå®¹å™¨é‡Œ
+		// å¯åŠ¨ Bean å®šä¹‰ä¿¡æ¯è½½å…¥çš„è¿‡ç¨‹
 		initBeanDefinitionReader(beanDefinitionReader);
 		
-		// »ñµÃ ¶ÁÈ¡Æ÷Ö®ºó..¾ÍĞèÒª´¦Àí×ÊÔ´¶¨Î»
+		// è·å¾— è¯»å–å™¨ä¹‹å..å°±éœ€è¦å¤„ç†èµ„æºå®šä½
 		loadBeanDefinitions(beanDefinitionReader);
 	}
 
@@ -127,15 +127,15 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 	 * @see #getResourcePatternResolver
 	 */
 	protected void loadBeanDefinitions(XmlBeanDefinitionReader reader) throws BeansException, IOException {
-		// ²»Í¬µÄ×ÊÔ´²ÎÊı×ß
-		// getConfigResources ×Ô¼º¶¨Òå£¬×ÓÀàÊµÏÖ
-		// ÒÔ Resource µÄ·½Ê½»ñµÃÅäÖÃÎÄ¼şµÄ×ÊÔ´Î»ÖÃ
+		// ä¸åŒçš„èµ„æºå‚æ•°èµ°
+		// getConfigResources è‡ªå·±å®šä¹‰ï¼Œå­ç±»å®ç°
+		// ä»¥ Resource çš„æ–¹å¼è·å¾—é…ç½®æ–‡ä»¶çš„èµ„æºä½ç½®
 		Resource[] configResources = getConfigResources();
 		if (configResources != null) {
 			reader.loadBeanDefinitions(configResources);
 		}
-		// Ò»°ãÊ¹ÓÃÕâÖÖ£¬ËûµÄÊµÏÖÓÖÊÇÔÚ..AbstractRefreshableConfigApplicationContext
-		// ÒÔ String µÄĞÎÊ½»ñµÃÅäÖÃÎÄ¼şµÄÎ»ÖÃ
+		// ä¸€èˆ¬ä½¿ç”¨è¿™ç§ï¼Œä»–çš„å®ç°åˆæ˜¯åœ¨..AbstractRefreshableConfigApplicationContext
+		// ä»¥ String çš„å½¢å¼è·å¾—é…ç½®æ–‡ä»¶çš„ä½ç½®
 		String[] configLocations = getConfigLocations();
 		if (configLocations != null) {
 			reader.loadBeanDefinitions(configLocations);

@@ -118,20 +118,20 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 */
 	@Override
 	protected final void refreshBeanFactory() throws BeansException {
-		// ÅĞ¶ÏBeanFactoryÊÇ·ñÒÑ¾­½¨Á¢£¬Èç¹ûÒÑ¾­½¨Á¢¾ÍÏú»Ù²¢¹Ø±Õ
+		// åˆ¤æ–­BeanFactoryæ˜¯å¦å·²ç»å»ºç«‹ï¼Œå¦‚æœå·²ç»å»ºç«‹å°±é”€æ¯å¹¶å…³é—­
 		if (hasBeanFactory()) {
 			destroyBeans();
 			closeBeanFactory();
 		}
 		try {
-			// ´´½¨²¢ÉèÖÃ³ÖÓĞµÄDefaultListableBeanFactoryµÄµØ·½Í¬Ê±µ÷ÓÃ
-			// loadBeanDefinitionsÔÙÔØÈëBeanDefinitionµÄĞÅÏ¢
+			// åˆ›å»ºå¹¶è®¾ç½®æŒæœ‰çš„DefaultListableBeanFactoryçš„åœ°æ–¹åŒæ—¶è°ƒç”¨
+			// loadBeanDefinitionså†è½½å…¥BeanDefinitionçš„ä¿¡æ¯
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
 			beanFactory.setSerializationId(getId());
 			customizeBeanFactory(beanFactory);
-			//////////×Ô¼ºÖ»ÊÇ¶¨Òå
-			// ÔÚ AbstractXmlApplicationContext ÀïÊµÏÖ
-			// Æô¶¯¶Ô BeanDefinition µÄÔØÈë
+			//////////è‡ªå·±åªæ˜¯å®šä¹‰
+			// åœ¨ AbstractXmlApplicationContext é‡Œå®ç°
+			// å¯åŠ¨å¯¹ BeanDefinition çš„è½½å…¥
 			loadBeanDefinitions(beanFactory);
 			
 			synchronized (this.beanFactoryMonitor) {
@@ -202,8 +202,8 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * @see org.springframework.beans.factory.support.DefaultListableBeanFactory#setAllowEagerClassLoading
 	 * @see org.springframework.beans.factory.support.DefaultListableBeanFactory#setAllowCircularReferences
 	 * @see org.springframework.beans.factory.support.DefaultListableBeanFactory#setAllowRawInjectionDespiteWrapping
-	 * ÔÚÉÏÏÂÎÄÖĞ´´½¨DefaultListableBeanFactoryµÄµØ·½
-	 * getInternalParentBeanFactory()¸ù¾İÈİÆ÷ÒÑÓĞµÄË«Ç×IOCÈİÆ÷µÄĞÅÏ¢À´Éú³É DefaultListableBeanFactoryµÄË«Ç×IOCÈİÆ÷
+	 * åœ¨ä¸Šä¸‹æ–‡ä¸­åˆ›å»ºDefaultListableBeanFactoryçš„åœ°æ–¹
+	 * getInternalParentBeanFactory()æ ¹æ®å®¹å™¨å·²æœ‰çš„åŒäº²IOCå®¹å™¨çš„ä¿¡æ¯æ¥ç”Ÿæˆ DefaultListableBeanFactoryçš„åŒäº²IOCå®¹å™¨
 	 */
 	protected DefaultListableBeanFactory createBeanFactory() {
 		return new DefaultListableBeanFactory(getInternalParentBeanFactory());
