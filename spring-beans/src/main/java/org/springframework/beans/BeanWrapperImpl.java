@@ -318,6 +318,8 @@ public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements
 
 		@Override
 		public void setValue(final Object object, Object valueToApply) throws Exception {
+			
+			// 取得注入属性的set方法，通过反射机制，把对象注入进去
 			final Method writeMethod = (this.pd instanceof GenericTypeAwarePropertyDescriptor ?
 					((GenericTypeAwarePropertyDescriptor) this.pd).getWriteMethodForActualAccess() :
 					this.pd.getWriteMethod());
@@ -351,6 +353,7 @@ public class BeanWrapperImpl extends AbstractNestablePropertyAccessor implements
 				}
 			}
 			else {
+				// 关键代码....
 				writeMethod.invoke(getWrappedInstance(), value);
 			}
 		}

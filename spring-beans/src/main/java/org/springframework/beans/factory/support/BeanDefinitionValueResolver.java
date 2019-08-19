@@ -99,12 +99,16 @@ class BeanDefinitionValueResolver {
 	 * @param argName the name of the argument that the value is defined for
 	 * @param value the value object to resolve
 	 * @return the resolved object
+	 * 解析..
+	 * if 有点多啊...
 	 */
 	public Object resolveValueIfNecessary(Object argName, Object value) {
 		// We must check each value to see whether it requires a runtime reference
 		// to another bean to be resolved.
 		if (value instanceof RuntimeBeanReference) {
 			RuntimeBeanReference ref = (RuntimeBeanReference) value;
+			
+			// 对Bean Reference的解析 。。ref
 			return resolveReference(argName, ref);
 		}
 		else if (value instanceof RuntimeBeanNameReference) {
@@ -128,6 +132,8 @@ class BeanDefinitionValueResolver {
 					ObjectUtils.getIdentityHexString(bd);
 			return resolveInnerBean(argName, innerBeanName, bd);
 		}
+		
+		//  对 array和list类型的属性进行注入
 		else if (value instanceof ManagedArray) {
 			// May need to resolve contained runtime references.
 			ManagedArray array = (ManagedArray) value;
@@ -151,19 +157,24 @@ class BeanDefinitionValueResolver {
 				}
 			}
 			return resolveManagedArray(argName, (List<?>) value, elementType);
+			
 		}
+		// 对于每一个在List中的元素，都会依次进行解析
 		else if (value instanceof ManagedList) {
 			// May need to resolve contained runtime references.
 			return resolveManagedList(argName, (List<?>) value);
 		}
+		// ManagedSet
 		else if (value instanceof ManagedSet) {
 			// May need to resolve contained runtime references.
 			return resolveManagedSet(argName, (Set<?>) value);
 		}
+		// ManagedMap
 		else if (value instanceof ManagedMap) {
 			// May need to resolve contained runtime references.
 			return resolveManagedMap(argName, (Map<?, ?>) value);
 		}
+		// ManagedProperties
 		else if (value instanceof ManagedProperties) {
 			Properties original = (Properties) value;
 			Properties copy = new Properties();
@@ -180,6 +191,7 @@ class BeanDefinitionValueResolver {
 			}
 			return copy;
 		}
+		// TypedStringValue
 		else if (value instanceof TypedStringValue) {
 			// Convert value to target type here.
 			TypedStringValue typedStringValue = (TypedStringValue) value;
@@ -336,8 +348,11 @@ class BeanDefinitionValueResolver {
 	 */
 	private Object resolveReference(Object argName, RuntimeBeanReference ref) {
 		try {
+			// 从RuntimeBeanReference取得reference的名字
+			// 这个RuntimeBeanReference是在载入BeanDefinition时根据配置生成的
 			String refName = ref.getBeanName();
 			refName = String.valueOf(doEvaluate(refName));
+			// 如果 ref 是在双亲IoC容器中，那就到双亲IoC容器中去获取
 			if (ref.isToParent()) {
 				if (this.beanFactory.getParentBeanFactory() == null) {
 					throw new BeanCreationException(
@@ -347,6 +362,9 @@ class BeanDefinitionValueResolver {
 				}
 				return this.beanFactory.getParentBeanFactory().getBean(refName);
 			}
+			
+			// 在当前IoC容器中去获取Bean，这里会触发一个getBean的过程
+			// 如果依赖注入没有发生，这里会触发相应的依赖注入的发生
 			else {
 				Object bean = this.beanFactory.getBean(refName);
 				this.beanFactory.registerDependentBean(refName, this.beanName);
@@ -374,10 +392,12 @@ class BeanDefinitionValueResolver {
 
 	/**
 	 * For each element in the managed list, resolve reference if necessary.
+	 * ManagedList
 	 */
 	private List<?> resolveManagedList(Object argName, List<?> ml) {
 		List<Object> resolved = new ArrayList<Object>(ml.size());
 		for (int i = 0; i < ml.size(); i++) {
+			// 通过递归的方式，对List的元素进行解析
 			resolved.add(
 					resolveValueIfNecessary(new KeyedArgName(argName, i), ml.get(i)));
 		}

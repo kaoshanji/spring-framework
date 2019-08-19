@@ -278,24 +278,31 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 			nestedPa.setPropertyValue(tokens, pv);
 		}
 		else {
+			// 关键代码...
 			setPropertyValue(tokens, pv);
 		}
 	}
 
 	protected void setPropertyValue(PropertyTokenHolder tokens, PropertyValue pv) throws BeansException {
 		if (tokens.keys != null) {
+			// 对集合类型进行注入
 			processKeyedProperty(tokens, pv);
 		}
 		else {
+			// 对非集合类型的域进行注入
 			processLocalProperty(tokens, pv);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	private void processKeyedProperty(PropertyTokenHolder tokens, PropertyValue pv) {
+		
+		// 属性值类型
 		Object propValue = getPropertyHoldingValue(tokens);
+		// 索引
 		String lastKey = tokens.keys[tokens.keys.length - 1];
 
+		//Array进行注入
 		if (propValue.getClass().isArray()) {
 			PropertyHandler ph = getLocalPropertyHandler(tokens.actualName);
 			Class<?> requiredType = propValue.getClass().getComponentType();
@@ -322,7 +329,8 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 						"Invalid array index in property path '" + tokens.canonicalName + "'", ex);
 			}
 		}
-
+		
+		// List
 		else if (propValue instanceof List) {
 			PropertyHandler ph = getPropertyHandler(tokens.actualName);
 			Class<?> requiredType = ph.getCollectionType(tokens.keys.length);
@@ -360,6 +368,7 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 			}
 		}
 
+		// Map
 		else if (propValue instanceof Map) {
 			PropertyHandler ph = getLocalPropertyHandler(tokens.actualName);
 			Class<?> mapKeyType = ph.getMapKeyType(tokens.keys.length);
@@ -389,6 +398,7 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 
 	private Object getPropertyHoldingValue(PropertyTokenHolder tokens) {
 		// Apply indexes and map keys: fetch value for all keys but the last one.
+		// 设置 toKens的索引和keys
 		PropertyTokenHolder getterTokens = new PropertyTokenHolder();
 		getterTokens.canonicalName = tokens.canonicalName;
 		getterTokens.actualName = tokens.actualName;
@@ -397,6 +407,7 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 
 		Object propValue;
 		try {
+			// 取得Bean中对注入对象的引用，比如Array、List、Map、Set等
 			propValue = getPropertyValue(getterTokens);
 		}
 		catch (NotReadablePropertyException ex) {
@@ -464,6 +475,8 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 				}
 				pv.getOriginalPropertyValue().conversionNecessary = (valueToApply != originalValue);
 			}
+			// BeanWrapperImpl的内部类BeanPropertyHandler实现
+			// set 属性，也还是反射
 			ph.setValue(this.wrappedObject, valueToApply);
 		}
 		catch (TypeMismatchException ex) {
@@ -1042,7 +1055,7 @@ public abstract class AbstractNestablePropertyAccessor extends AbstractPropertyA
 	/**
 	 * Holder class used to store property tokens.
 	 */
-	protected static class PropertyTokenHolder {
+	public static class PropertyTokenHolder {
 
 		public String canonicalName;
 

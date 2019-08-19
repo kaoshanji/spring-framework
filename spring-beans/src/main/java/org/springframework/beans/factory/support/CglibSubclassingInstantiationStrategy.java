@@ -80,6 +80,7 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 			Constructor<?> ctor, Object... args) {
 
 		// Must generate CGLIB subclass...
+		// 转转 CGLIB ..到 instantiate..就在下面，，一个内部类
 		return new CglibSubclassCreator(bd, owner).instantiate(ctor, args);
 	}
 
@@ -112,6 +113,7 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 		 * @return new instance of the dynamically generated subclass
 		 */
 		public Object instantiate(Constructor<?> ctor, Object... args) {
+			// 看看 CGLIB的语法示例..Enhancer
 			Class<?> subclass = createEnhancedSubclass(this.beanDefinition);
 			Object instance;
 			if (ctor == null) {
@@ -141,6 +143,8 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 		 * definition, using CGLIB.
 		 */
 		private Class<?> createEnhancedSubclass(RootBeanDefinition beanDefinition) {
+			// 生成Enhancer对象
+			// 为Enhancer对象设置生成Java对象的参数，比如基类、回调方法等
 			Enhancer enhancer = new Enhancer();
 			enhancer.setSuperclass(beanDefinition.getBeanClass());
 			enhancer.setNamingPolicy(SpringNamingPolicy.INSTANCE);
@@ -150,6 +154,7 @@ public class CglibSubclassingInstantiationStrategy extends SimpleInstantiationSt
 			}
 			enhancer.setCallbackFilter(new MethodOverrideCallbackFilter(beanDefinition));
 			enhancer.setCallbackTypes(CALLBACK_TYPES);
+			// 生成实例化的Bean对象
 			return enhancer.createClass();
 		}
 	}
