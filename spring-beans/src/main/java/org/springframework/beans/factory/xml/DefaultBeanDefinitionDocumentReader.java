@@ -91,6 +91,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		this.readerContext = readerContext;
 		logger.debug("Loading bean definitions");
 		Element root = doc.getDocumentElement();
+		// 关键代码
 		doRegisterBeanDefinitions(root);
 	}
 
@@ -138,11 +139,14 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 			}
 		}
 
+		// 解析前
 		preProcessXml(root);
 		// 解析 XML
 		// 获得 BeanDefinition
 		// BeanDefinitionParserDelegate 面向XML元素
+		// 关键代码
 		parseBeanDefinitions(root, this.delegate);
+		// 解析后
 		postProcessXml(root);
 
 		this.delegate = parent;
@@ -170,9 +174,11 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 					Element ele = (Element) node;
 					if (delegate.isDefaultNamespace(ele)) {
 						// 默认标签...
+						// 关键代码
 						parseDefaultElement(ele, delegate);
 					}
 					else {
+						// 额外标签
 						delegate.parseCustomElement(ele);
 					}
 				}
@@ -310,6 +316,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		// BeanDefinitionParserDelegate对XML元素的信息按照Spring的Bran规则进行解析得到
 		// BeanDefinitionParserDelegate属性与XML元素标签属性对应
 		// 就是这个方法把XML转换成BeanDefinition了
+		// 关键代码
 		BeanDefinitionHolder bdHolder = delegate.parseBeanDefinitionElement(ele);
 		if (bdHolder != null) {
 			bdHolder = delegate.decorateBeanDefinitionIfRequired(ele, bdHolder);

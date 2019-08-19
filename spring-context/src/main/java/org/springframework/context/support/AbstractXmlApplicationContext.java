@@ -99,6 +99,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 		initBeanDefinitionReader(beanDefinitionReader);
 		
 		// 获得 读取器之后..就需要处理资源定位
+		// 关键代码
 		loadBeanDefinitions(beanDefinitionReader);
 	}
 
@@ -132,6 +133,7 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshableC
 		// 以 Resource 的方式获得配置文件的资源位置
 		Resource[] configResources = getConfigResources();
 		if (configResources != null) {
+			// 关键代码
 			reader.loadBeanDefinitions(configResources);
 		}
 		// 一般使用这种，他的实现又是在..AbstractRefreshableConfigApplicationContext

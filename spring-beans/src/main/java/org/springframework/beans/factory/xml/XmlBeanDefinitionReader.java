@@ -337,6 +337,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 					inputSource.setEncoding(encodedResource.getEncoding());
 				}
 				/////do....
+				// 关键代码
 				return doLoadBeanDefinitions(inputSource, encodedResource.getResource());
 			}
 			finally {
@@ -398,6 +399,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 			Document doc = doLoadDocument(inputSource, resource);
 			// 启动对 BeanDefinition 解析的详细过程
 			// 这个解析会使用到Spring的Bean配置规则...BeanDefinitionDocumentReader具体干活
+			// 关键代码
 			return registerBeanDefinitions(doc, resource);
 		}
 		catch (BeanDefinitionStoreException ex) {
@@ -519,6 +521,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 		int countBefore = getRegistry().getBeanDefinitionCount();
 		
 		// 具体解析过程在这里完成
+		// 关键代码
 		documentReader.registerBeanDefinitions(doc, createReaderContext(resource));
 		return getRegistry().getBeanDefinitionCount() - countBefore;
 	}

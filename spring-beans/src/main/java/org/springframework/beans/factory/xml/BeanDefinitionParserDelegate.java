@@ -459,6 +459,7 @@ public class BeanDefinitionParserDelegate {
 
 		// 看起来是获得对象
 		// 其实是引发对Bean元素的详细解析，仅关注结果
+		// 关键代码
 		AbstractBeanDefinition beanDefinition = parseBeanDefinitionElement(ele, beanName, containingBean);
 		if (beanDefinition != null) {
 			if (!StringUtils.hasText(beanName)) {
@@ -527,7 +528,7 @@ public class BeanDefinitionParserDelegate {
 
 		this.parseState.push(new BeanEntry(beanName));
 
-		// ֻ只读取定义的<bean>中设置的class名字，然后载入到BeanDefinition中去
+		// 只读取定义的<bean>中设置的class名字，然后载入到BeanDefinition中去
 		// 只是做个记录，对象的实例化是在依赖注入时完成
 		String className = null;
 		if (ele.hasAttribute(CLASS_ATTRIBUTE)) {

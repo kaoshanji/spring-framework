@@ -179,6 +179,7 @@ public abstract class AbstractBeanDefinitionReader implements EnvironmentCapable
 		int counter = 0;
 		for (Resource resource : resources) {
 			// XmlBeanDefinitionReader 实现
+			// 关键代码
 			counter += loadBeanDefinitions(resource);
 		}
 		return counter;
