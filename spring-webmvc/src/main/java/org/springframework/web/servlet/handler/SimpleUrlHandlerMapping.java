@@ -114,6 +114,8 @@ public class SimpleUrlHandlerMapping extends AbstractUrlHandlerMapping {
 			logger.warn("Neither 'urlMap' nor 'mappings' set on SimpleUrlHandlerMapping");
 		}
 		else {
+			// 对Bean的配置进行解析
+			// 调用父类registerHandler完成注册
 			for (Map.Entry<String, Object> entry : urlMap.entrySet()) {
 				String url = entry.getKey();
 				Object handler = entry.getValue();
@@ -125,6 +127,9 @@ public class SimpleUrlHandlerMapping extends AbstractUrlHandlerMapping {
 				if (handler instanceof String) {
 					handler = ((String) handler).trim();
 				}
+				// 关键代码
+				// 映射 URL和Controller 
+				// AbstractUrlHandlerMapping 实现
 				registerHandler(url, handler);
 			}
 		}
