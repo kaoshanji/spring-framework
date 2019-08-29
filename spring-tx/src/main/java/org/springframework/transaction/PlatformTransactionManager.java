@@ -39,6 +39,9 @@ package org.springframework.transaction;
  * @since 16.05.2003
  * @see org.springframework.transaction.support.TransactionTemplate
  * @see org.springframework.transaction.interceptor.TransactionInterceptor
+ * 事务抽象架构的核心接口
+ * 为应用程序提供事务界定的统一方式
+ * 该如何实现???
  */
 public interface PlatformTransactionManager {
 

@@ -58,6 +58,7 @@ import org.springframework.transaction.TransactionSystemException;
  * @see #execute
  * @see #setTransactionManager
  * @see org.springframework.transaction.PlatformTransactionManager
+ * 编程式事务管理的模板方法类
  */
 @SuppressWarnings("serial")
 public class TransactionTemplate extends DefaultTransactionDefinition

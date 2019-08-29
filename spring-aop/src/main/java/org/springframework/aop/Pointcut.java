@@ -35,12 +35,14 @@ public interface Pointcut {
 	/**
 	 * Return the ClassFilter for this pointcut.
 	 * @return the ClassFilter (never {@code null})
+	 * 匹配将被执行织入操作的对象
 	 */
 	ClassFilter getClassFilter();
 
 	/**
 	 * Return the MethodMatcher for this pointcut.
 	 * @return the MethodMatcher (never {@code null})
+	 * 匹配将被执行织入操作的对象的方法
 	 */
 	MethodMatcher getMethodMatcher();
 

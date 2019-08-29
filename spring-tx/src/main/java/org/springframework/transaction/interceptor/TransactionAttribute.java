@@ -28,6 +28,7 @@ import org.springframework.transaction.TransactionDefinition;
  * @since 16.03.2003
  * @see DefaultTransactionAttribute
  * @see RuleBasedTransactionAttribute
+ * 使用AOP进行声明式事务管理
  */
 public interface TransactionAttribute extends TransactionDefinition {
 
@@ -43,6 +44,7 @@ public interface TransactionAttribute extends TransactionDefinition {
 	 * Should we roll back on the given exception?
 	 * @param ex the exception to evaluate
 	 * @return whether to perform a rollback or not
+	 * 指定业务方法在抛出那些异常的情况下可以回滚事务
 	 */
 	boolean rollbackOn(Throwable ex);
 

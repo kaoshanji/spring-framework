@@ -44,10 +44,14 @@ import java.sql.Connection;
 public interface TransactionDefinition {
 
 	/**
+	 * 事务传播行为
 	 * Support a current transaction; create a new one if none exists.
 	 * Analogous to the EJB transaction attribute of the same name.
 	 * <p>This is typically the default setting of a transaction definition,
 	 * and typically defines a transaction synchronization scope.
+	 * 如果当前存在一个事务，就加入当前事务
+	 * 如果不存在任何事务，则创建一个新的事务，要至少保证在一个事务中运行
+	 * 通常作为默认的事务传播行为
 	 */
 	int PROPAGATION_REQUIRED = 0;
 
@@ -69,6 +73,8 @@ public interface TransactionDefinition {
 	 * "synchronization on actual transaction").
 	 * @see org.springframework.transaction.support.AbstractPlatformTransactionManager#setTransactionSynchronization
 	 * @see org.springframework.transaction.support.AbstractPlatformTransactionManager#SYNCHRONIZATION_ON_ACTUAL_TRANSACTION
+	 * 如果当前存在一个事务，则加入当前事务
+	 * 如果当前不存在事务，则直接执行
 	 */
 	int PROPAGATION_SUPPORTS = 1;
 
@@ -77,6 +83,7 @@ public interface TransactionDefinition {
 	 * exists. Analogous to the EJB transaction attribute of the same name.
 	 * <p>Note that transaction synchronization within a {@code PROPAGATION_MANDATORY}
 	 * scope will always be driven by the surrounding transaction.
+	 * 强制要求当前存在一个事务，如果不存在，则抛出异常
 	 */
 	int PROPAGATION_MANDATORY = 2;
 
@@ -92,6 +99,7 @@ public interface TransactionDefinition {
 	 * transaction synchronizations. Existing synchronizations will be suspended
 	 * and resumed appropriately.
 	 * @see org.springframework.transaction.jta.JtaTransactionManager#setTransactionManager
+	 * 无论当前是否存在事务，都会创建新的事务
 	 */
 	int PROPAGATION_REQUIRES_NEW = 3;
 
@@ -107,6 +115,7 @@ public interface TransactionDefinition {
 	 * {@code PROPAGATION_NOT_SUPPORTED} scope. Existing synchronizations
 	 * will be suspended and resumed appropriately.
 	 * @see org.springframework.transaction.jta.JtaTransactionManager#setTransactionManager
+	 * 不支持当前事务，而是在没有事务的情况下执行
 	 */
 	int PROPAGATION_NOT_SUPPORTED = 4;
 
@@ -115,6 +124,7 @@ public interface TransactionDefinition {
 	 * exists. Analogous to the EJB transaction attribute of the same name.
 	 * <p>Note that transaction synchronization is <i>not</i> available within a
 	 * {@code PROPAGATION_NEVER} scope.
+	 * 永远不需要当前存在事务，如果存在当前事务，就抛出异常
 	 */
 	int PROPAGATION_NEVER = 5;
 
@@ -128,6 +138,7 @@ public interface TransactionDefinition {
 	 * when working on a JDBC 3.0 driver. Some JTA providers might support
 	 * nested transactions as well.
 	 * @see org.springframework.jdbc.datasource.DataSourceTransactionManager
+	 * 如果存在当前事务，则在当前事务的一个嵌套事务中执行，否则与PROPAGATION_REQUIRED的行为类似，即创建新的事务，在新创建的事务中执行
 	 */
 	int PROPAGATION_NESTED = 6;
 
@@ -140,6 +151,7 @@ public interface TransactionDefinition {
 	int ISOLATION_DEFAULT = -1;
 
 	/**
+	 * 事务隔离级别
 	 * Indicates that dirty reads, non-repeatable reads and phantom reads
 	 * can occur.
 	 * <p>This level allows a row changed by one transaction to be read by another
@@ -187,6 +199,8 @@ public interface TransactionDefinition {
 	/**
 	 * Use the default timeout of the underlying transaction system,
 	 * or none if timeouts are not supported.
+	 * 事务的超时时间
+	 * -1,当前事务系统默认的超时时间
 	 */
 	int TIMEOUT_DEFAULT = -1;
 
